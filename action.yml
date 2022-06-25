@@ -8,7 +8,7 @@ inputs:
     default: "-3 --color"
 
   charts:
-    description: "List of charts to run tests for"
+    description: "Charts to run tests for, separated by spaces"
     required: false
     default: ""
 
