@@ -2,10 +2,10 @@ name: "Helm Unit Tests"
 description: "Run Helm chart unit tests with quintush/helm-unittest"
 
 inputs:
-  helm3:
-    description: "Parse Helm charts as Helm3 charts"
+  flags:
+    description: "Flags to pass to helm unittest"
     required: false
-    default: true
+    default: "-3 --color"
 
   charts:
     description: "List of charts to run tests for"
@@ -33,4 +33,4 @@ runs:
           helm dependency update "$chart"
         done
 
-        helm unittest ${{ inputs.helm3 && '-3' || '' }} $charts
+        helm unittest ${{ inputs.flags }} $charts
