@@ -1,0 +1,32 @@
+name: "Helm Unit Tests"
+description: "Run Helm chart unit tests with quintush/helm-unittest"
+
+inputs:
+  helm3:
+    description: "Parse Helm charts as Helm3 charts"
+    required: false
+    default: true
+
+  charts:
+    description: "List of charts to run tests for"
+    required: false
+    default: []
+
+runs:
+  using: "composite"
+  steps:
+    - run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      shell: bash
+
+    - run: helm plugin install https://github.com/quintush/helm-unittest
+      shell: bash
+
+    - shell: bash
+      run: |
+        charts="${{ join(inputs.charts, ' ') }}"
+
+        if [ -z "$charts" ]; then
+          charts="$(find "$GITHUB_ACTION_PATH" -type f -name 'Chart.yaml' -exec dirname {} \;)"
+        fi
+
+        helm unittest ${{ inputs.helm3 && '-3' || '' }} $charts
