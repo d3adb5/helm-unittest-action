@@ -26,7 +26,7 @@ runs:
         charts="${{ inputs.charts }}"
 
         if [ -z "$charts" ]; then
-          charts="$(find "$GITHUB_ACTION_PATH" -type f -name 'Chart.yaml' -exec dirname {} \;)"
+          charts="$(find . -type f -name 'Chart.yaml' -exec dirname {} \;)"
         fi
 
         helm unittest ${{ inputs.helm3 && '-3' || '' }} $charts
