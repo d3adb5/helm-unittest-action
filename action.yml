@@ -10,7 +10,7 @@ inputs:
   charts:
     description: "List of charts to run tests for"
     required: false
-    default: []
+    default: ""
 
 runs:
   using: "composite"
@@ -23,7 +23,7 @@ runs:
 
     - shell: bash
       run: |
-        charts="${{ join(inputs.charts, ' ') }}"
+        charts="${{ inputs.charts }}"
 
         if [ -z "$charts" ]; then
           charts="$(find "$GITHUB_ACTION_PATH" -type f -name 'Chart.yaml' -exec dirname {} \;)"
