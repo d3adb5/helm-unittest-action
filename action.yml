@@ -29,4 +29,8 @@ runs:
           charts="$(find . -type f -name 'Chart.yaml' -exec dirname {} \;)"
         fi
 
+        for chart in $charts; do
+          helm dependency update "$chart"
+        done
+
         helm unittest ${{ inputs.helm3 && '-3' || '' }} $charts
