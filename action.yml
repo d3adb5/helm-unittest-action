@@ -22,7 +22,7 @@ runs:
       shell: bash
 
     - run: |
-        sed 's/[[:space:]]*/\n/g' <<< "${{ inputs.charts }}" > charts-to-test
+        tr ' ' '\n' <<< "${{ inputs.charts }}" | grep -v '^$' > charts-to-test
         find . -type f -name 'Chart.yaml' -exec dirname {} \; > all-charts
         [ -z "${{ inputs.charts }}" ] && mv all-charts charts-to-test || true
       shell: bash
