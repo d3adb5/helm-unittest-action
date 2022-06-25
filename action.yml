@@ -25,7 +25,7 @@ runs:
       shell: bash
 
     - run: |
-        tr ' ' '\n' <<< "${{ inputs.charts }}" | grep -v '^$' > charts-to-test
+        tr ' ' '\n' <<< "${{ inputs.charts }}" | grep -v '^$' > charts-to-test || true
         find . -type f -name 'Chart.yaml' -exec dirname {} \; > all-charts
         [ -z "${{ inputs.charts }}" ] && mv all-charts charts-to-test || true
       shell: bash
