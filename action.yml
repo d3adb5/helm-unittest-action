@@ -20,7 +20,9 @@ runs:
         curl "$installScript" 2>/dev/null | bash >/dev/null
       shell: bash
 
-    - run: helm plugin install https://github.com/quintush/helm-unittest >/dev/null
+    - run: |
+        helm plugin install https://github.com/quintush/helm-unittest \
+          >/dev/null 2>/dev/null
       shell: bash
 
     - run: |
