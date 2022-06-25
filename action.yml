@@ -15,10 +15,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    - run: |
+        installScript=https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        curl "$installScript" 2>/dev/null | bash >/dev/null
       shell: bash
 
-    - run: helm plugin install https://github.com/quintush/helm-unittest
+    - run: |
+        helm plugin install https://github.com/quintush/helm-unittest >/dev/null 2>/dev/null
       shell: bash
 
     - run: |
@@ -29,7 +32,7 @@ runs:
 
     - run: |
         for chart in $(cat charts-to-test); do
-          helm dependency update "$chart"
+          helm dependency update "$chart" >/dev/null
         done
       shell: bash
 
