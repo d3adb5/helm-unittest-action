@@ -1,6 +1,10 @@
 name: "Helm Unit Tests"
 description: "Run Helm chart unit tests with quintush/helm-unittest"
 
+branding:
+  icon: check-square
+  color: green
+
 inputs:
   flags:
     description: "Flags to pass to helm unittest"
