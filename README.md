@@ -1,12 +1,12 @@
 # Helm Unit Tests Action
 
 Composite action that installs the latest version of Helm 3 through [helm's
-install script][helm-install], the [helm-unittest][quintush] plugin, and then
-executes chart unit tests for the specified charts or for every chart in the
-repository.
+install script][helm-install], the [helm-unittest][helm-unittest] plugin, and
+then executes chart unit tests for the specified charts or for every chart in
+the repository.
 
 [helm-install]: https://github.com/helm/helm/blob/main/scripts/get-helm-3
-[quintush]: https://github.com/quintush/helm-unittest
+[helm-unittest]: https://github.com/helm-unittest/helm-unittest
 
 ## Options
 
@@ -18,7 +18,7 @@ What flags to pass to the `helm unittest` command. By default this is `-3
 --color`, which mean the charts will be interpreted as Helm v3 charts (as
 opposed to v2), and the output will always contain colors.
 
-- Default: `"-3 --color"`
+- Default: `"--color"`
 - Required: no
 
 ### charts
