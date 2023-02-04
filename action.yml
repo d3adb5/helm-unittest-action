@@ -9,7 +9,7 @@ inputs:
   flags:
     description: "Flags to pass to helm unittest"
     required: false
-    default: "-3 --color"
+    default: "--color"
 
   charts:
     description: "Charts to run tests for, separated by spaces"
@@ -25,7 +25,7 @@ runs:
       shell: bash
 
     - run: |
-        helm plugin install https://github.com/quintush/helm-unittest >/dev/null 2>/dev/null
+        helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
       shell: bash
 
     - run: |
