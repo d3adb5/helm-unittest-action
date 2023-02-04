@@ -1,9 +1,9 @@
 # Helm Unit Tests Action
 
 Composite action that installs the latest version of Helm 3 through [helm's
-install script][helm-install], the [helm-unittest][helm-unittest] plugin, and
-then executes chart unit tests for the specified charts or for every chart in
-the repository.
+install script][helm-install], the latest version of the
+[helm-unittest][helm-unittest] plugin, and then executes chart unit tests for
+the specified charts or for every chart in the repository.
 
 [helm-install]: https://github.com/helm/helm/blob/main/scripts/get-helm-3
 [helm-unittest]: https://github.com/helm-unittest/helm-unittest
