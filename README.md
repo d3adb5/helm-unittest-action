@@ -14,9 +14,9 @@ There are two optional inputs for this action:
 
 ### flags
 
-What flags to pass to the `helm unittest` command. By default this is `-3
---color`, which mean the charts will be interpreted as Helm v3 charts (as
-opposed to v2), and the output will always contain colors.
+What flags to pass to the `helm unittest` command. By default, we expect colors
+in our output by passing `--color`. Helm v2 is no longer supported as of
+helm-unittest version v0.3.0, so we're no longer passing `-3`.
 
 - Default: `"--color"`
 - Required: no
