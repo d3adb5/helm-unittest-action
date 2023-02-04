@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: d3adb5/helm-unittest-action@v1
+      - uses: d3adb5/helm-unittest-action@v2
 ```
 
 Note that after the action itself, Helm is installed, so you can run additional
@@ -62,6 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: d3adb5/helm-unittest-action@v1
+      - uses: d3adb5/helm-unittest-action@v2
       - run: helm lint my-chart
 ```
