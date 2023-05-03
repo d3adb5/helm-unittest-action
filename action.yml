@@ -19,12 +19,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Install Helm
+      run: |
         installScript=https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
         curl "$installScript" 2>/dev/null | bash >/dev/null
       shell: bash
 
-    - name: Install Helm
+    - name: Install helm-unittest
       run: |
         helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
       shell: bash
