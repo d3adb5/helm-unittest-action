@@ -12,8 +12,11 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./
+      - name: Checkout repository files
+        uses: actions/checkout@v3
+
+      - name: Run composite action
+        uses: ./
 
       - name: Check that Helm is installed
         run: command -v helm >/dev/null 2>/dev/null
@@ -30,7 +33,8 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository files
+        uses: actions/checkout@v3
 
       - name: Copy example chart to multiple places
         run: |
@@ -39,7 +43,8 @@ jobs:
           mkdir -p somedir/subdir
           cp -r example-chart-1 somedir/subdir/inner-chart
 
-      - uses: ./
+      - name: Run composite action
+        uses: ./
 
       - name: Check that tests were run on all charts
         run: |
@@ -53,7 +58,8 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository files
+        uses: actions/checkout@v3
 
       - name: Copy example chart to multiple places
         run: |
@@ -62,7 +68,8 @@ jobs:
           mkdir -p somedir/subdir
           cp -r example-chart-1 somedir/subdir/inner-chart
 
-      - uses: ./
+      - name: Run composite action
+        uses: ./
         with:
           charts: example-chart-2
 
