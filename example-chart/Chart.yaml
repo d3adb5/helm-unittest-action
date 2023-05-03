@@ -1,0 +1,5 @@
+apiVersion: v2
+name: example-chart
+description: An example Helm chart for continuous integration
+type: application
+version: 0.1.0

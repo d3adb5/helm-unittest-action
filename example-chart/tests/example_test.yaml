@@ -1,0 +1,28 @@
+suite: Example
+
+templates:
+  - example.yaml
+
+tests:
+  - it: tells us about the oddity of the number of items in some_list
+    set:
+      some_list: [1, 2, 3, 4, 5]
+    asserts:
+      - equal:
+          path: additionalInfo
+          value: odd number of items
+
+  - it: does not add additionalInfo if there is an even number of items in some_list
+    set:
+      some_list: [1, 2]
+    asserts:
+      - isNull:
+          path: additionalInfo
+
+  - it: fails the chart with the proper reason if shouldFail is true
+    set:
+      shouldFail: true
+      failReason: example reason
+    asserts:
+      - failedTemplate:
+          errorMessage: example reason

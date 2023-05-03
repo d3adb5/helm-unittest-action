@@ -1,0 +1,9 @@
+always: here
+
+{{- if mod (len .Values.some_list) 2 | eq 1 }}
+additionalInfo: odd number of items
+{{- end }}
+
+{{- if .Values.shouldFail }}
+  {{- fail .Values.failReason }}
+{{- end }}
