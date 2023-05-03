@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request: {}
+  push:
+    branches: [ master ]
+
+jobs:
+  test-action-simple:
+    name: Single Chart
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+
+      - name: Check that Helm is installed
+        run: command -v helm >/dev/null 2>/dev/null
+
+      - name: Check that helm-unittest is installed
+        run: helm plugin list | sed 1d | awk '{print $1}' | grep -q '^unittest$'
+
+      - name: Check that tests were run on example chart
+        run: test -d example-chart/tests/__snapshot__
+
+  test-action-multiple-charts:
+    name: Multiple Charts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Copy example chart to multiple places
+        run: |
+          mv example-chart example-chart-1
+          cp -r example-chart-1 example-chart-2
+          mkdir -p somedir/subdir
+          cp -r example-chart-1 somedir/subdir/inner-chart
+
+      - uses: ./
+
+      - name: Check that tests were run on all charts
+        run: |
+          for chart in example-chart-{1,2} somedir/subdir/inner-chart; do
+            test -d "$chart"/tests/__snapshot__
+          done
+
+  test-action-charts-param:
+    name: Charts By Param
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Copy example chart to multiple places
+        run: |
+          mv example-chart example-chart-1
+          cp -r example-chart-1 example-chart-2
+          mkdir -p somedir/subdir
+          cp -r example-chart-1 somedir/subdir/inner-chart
+
+      - uses: ./
+        with:
+          charts: example-chart-2
+
+      - name: Check that tests were run on only specified chart
+        run: |
+          test -d example-chart-2/tests/__snapshot__
+          ! test -d example-chart-1/tests/__snapshot__
+          ! test -d somedir/subdir/inner-chart/tests/__snapshot__
