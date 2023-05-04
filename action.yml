@@ -44,6 +44,7 @@ runs:
         if helm plugin list | sed 1d | awk '{print $1}' | grep -q '^unittest$'; then
           if [ "${{ inputs.install-mode }}" = "if-not-present" ]; then
             echo "Plugin already installed, skipping installation step."
+            exit 0
           elif [ "${{ inputs.install-mode }}" != "force" ]; then
             echo "Plugin already installed, aborting."
             exit 1
