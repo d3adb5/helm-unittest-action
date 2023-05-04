@@ -1,40 +1,38 @@
 # Helm Unit Tests Action
 
-Composite action that installs the latest version of Helm 3 through [helm's
+Composite action that installs the latest version of Helm through [helm's
 install script][helm-install], the latest version of the
 [helm-unittest][helm-unittest] plugin, and then executes chart unit tests for
-the specified charts or for every chart in the repository.
+the specified charts or, if none are specified, for every chart found in the
+repository.
 
 [helm-install]: https://github.com/helm/helm/blob/main/scripts/get-helm-3
 [helm-unittest]: https://github.com/helm-unittest/helm-unittest
 
 ## Options
 
-There are two optional inputs for this action:
+| Input        | Description                                                                                   | Required | Default   |
+|:-------------|:----------------------------------------------------------------------------------------------|:---------|:----------|
+| flags        | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
+| charts       | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
+| install-mode | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
 
-### flags
+### Installation mode
 
-What flags to pass to the `helm unittest` command. By default, we expect colors
-in our output by passing `--color`. Helm v2 is no longer supported as of
-helm-unittest version v0.3.0, so we're no longer passing `-3`.
+The `install-mode` input controls how `helm-unittest` should be installed.
+These are the available installation modes:
 
-- Default: `"--color"`
-- Required: no
-
-### charts
-
-Paths to the charts that will be tested by the action, separated by spaces. If
-empty, every directory containing a `Chart.yaml` file is assumed to be a chart
-and will be tested.
-
-- Default: `""`
-- Required: no
+| install-mode   | Behavior                                                                    |
+|:---------------|:----------------------------------------------------------------------------|
+| force          | Installs over any previous version of the plugin.                           |
+| if-not-present | Skips installation if there's a plugin called `unittest` already installed. |
+| _empty_        | Attempts to install the plugin normally. Will fail if already installed.    |
 
 ## Examples
 
-The following example is of a CI workflow for a repository containing Helm
-charts. It will run `helm dependency update` on each chart and subsequently
-`helm unittest -3 --color` for all of them at once.
+This composite action can be used in any workflow that requires Helm unit
+tests. For every chart it finds, it will run `helm dependency update` to ensure
+chart dependencies are present.
 
 ```yaml
 name: CI
@@ -50,7 +48,7 @@ jobs:
 ```
 
 Note that after the action itself, Helm is installed, so you can run additional
-Helm commands in the same action:
+Helm commands in the same action if you so choose:
 
 ```yaml
 name: CI
