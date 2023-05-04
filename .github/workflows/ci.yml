@@ -128,10 +128,12 @@ jobs:
       - name: Try running composite action in simple install mode
         uses: ./
         continue-on-error: true
+        id: secondinstall
 
-      - if: failure()
+      - if: steps.secondinstall.outcome != 'success'
         run: echo "Composite action failed to install plugin as expected!"
-      - if: success()
+
+      - if: steps.secondinstall.outcome == 'success'
         run: |
           echo "Composite action installed plugin successfully, which is unexpected!"
           exit 1
