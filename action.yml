@@ -16,16 +16,41 @@ inputs:
     required: false
     default: ""
 
+  install-mode:
+    description: >-
+      Whether to force install helm-unittest ("force"), try a simple install
+      (empty) or skip if the plugin is present ("if-not-present")
+    required: false
+    default: ""
+
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Install Helm
+      run: |
         installScript=https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
         curl "$installScript" 2>/dev/null | bash >/dev/null
       shell: bash
 
-    - name: Install Helm
+    - name: Uninstall helm-unittest if present
+      if: inputs.install-mode == 'force'
       run: |
+        helm plugin uninstall unittest >/dev/null 2>/dev/null \
+          || echo "Failed to uninstall plugin, assuming it's not present."
+      shell: bash
+
+    - name: Install helm-unittest
+      run: |
+        if helm plugin list | sed 1d | awk '{print $1}' | grep -q '^unittest$'; then
+          if [ "${{ inputs.install-mode }}" = "if-not-present" ]; then
+            echo "Plugin already installed, skipping installation step."
+            exit 0
+          elif [ "${{ inputs.install-mode }}" != "force" ]; then
+            echo "Plugin already installed, aborting."
+            exit 1
+          fi
+        fi
+
         helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
       shell: bash
 

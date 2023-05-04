@@ -78,3 +78,62 @@ jobs:
           test -d example-chart-2/tests/__snapshot__
           ! test -d example-chart-1/tests/__snapshot__
           ! test -d somedir/subdir/inner-chart/tests/__snapshot__
+
+  test-action-force-install:
+    name: Force Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository files
+        uses: actions/checkout@v3
+
+      - name: Run composite action
+        uses: ./
+
+      - name: Try running composite action in force install mode
+        uses: ./
+        with:
+          install-mode: force
+
+  test-action-if-not-present:
+    name: If Not Present
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository files
+        uses: actions/checkout@v3
+
+      - name: Run composite action
+        uses: ./
+
+      - name: Try running composite action in if-not-present mode
+        uses: ./
+        with:
+          install-mode: if-not-present
+
+  test-action-simple-install:
+    name: Simple Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository files
+        uses: actions/checkout@v3
+
+      - name: Run composite action
+        uses: ./
+
+      - name: Try running composite action in simple install mode
+        uses: ./
+        continue-on-error: true
+        id: secondinstall
+
+      - if: steps.secondinstall.outcome != 'success'
+        run: echo "Composite action failed to install plugin as expected!"
+
+      - if: steps.secondinstall.outcome == 'success'
+        run: |
+          echo "Composite action installed plugin successfully, which is unexpected!"
+          exit 1
