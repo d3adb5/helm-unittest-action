@@ -12,7 +12,7 @@ inputs:
     default: "latest"
 
   github-token:
-    description: "GitHub token, necessary to overcome API rate limits."
+    description: "GitHub token, necessary to overcome API rate limits"
     required: false
 
   flags:
