@@ -17,6 +17,8 @@ jobs:
 
       - name: Run composite action
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check that Helm is installed
         run: command -v helm >/dev/null 2>/dev/null
@@ -45,6 +47,8 @@ jobs:
 
       - name: Run composite action
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check that tests were run on all charts
         run: |
@@ -71,6 +75,7 @@ jobs:
       - name: Run composite action
         uses: ./
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           charts: example-chart-2
 
       - name: Check that tests were run on only specified chart
@@ -90,10 +95,13 @@ jobs:
 
       - name: Run composite action
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Try running composite action in force install mode
         uses: ./
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           install-mode: force
 
   test-action-if-not-present:
@@ -107,10 +115,13 @@ jobs:
 
       - name: Run composite action
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Try running composite action in if-not-present mode
         uses: ./
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           install-mode: if-not-present
 
   test-action-simple-install:
@@ -124,9 +135,13 @@ jobs:
 
       - name: Run composite action
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Try running composite action in simple install mode
         uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
         id: secondinstall
 

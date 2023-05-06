@@ -6,6 +6,15 @@ branding:
   color: green
 
 inputs:
+  helm-version:
+    description: "Which version of Helm to install"
+    required: true
+    default: "latest"
+
+  github-token:
+    description: "GitHub token, necessary to overcome API rate limits"
+    required: false
+
   flags:
     description: "Flags to pass to helm unittest"
     required: false
@@ -27,10 +36,10 @@ runs:
   using: "composite"
   steps:
     - name: Install Helm
-      run: |
-        installScript=https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-        curl "$installScript" 2>/dev/null | bash >/dev/null
-      shell: bash
+      uses: azure/setup-helm@v3
+      with:
+        version: ${{ inputs.helm-version }}
+        token: ${{ inputs.github-token }}
 
     - name: Uninstall helm-unittest if present
       if: inputs.install-mode == 'force'
