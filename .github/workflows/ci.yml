@@ -124,6 +124,28 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           install-mode: if-not-present
 
+  test-action-unittest-version:
+    name: Unittest Version
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository files
+        uses: actions/checkout@v3
+      - name: Run composite action
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          unittest-version: v0.3.4
+          
+      - name: Check that helm-unittest is installed
+        run: helm plugin list | sed 1d | awk '{print $1}' | grep -q '^unittest$'
+
+      - name: Check that helm-unittest version is v0.3.4
+        run: helm plugin list | awk '/^unittest\s/ { found = 1; print $2 } END { exit !found }' | grep -q '^0.3.4$'
+      
+
+
   test-action-simple-install:
     name: Simple Install
     runs-on: ubuntu-latest

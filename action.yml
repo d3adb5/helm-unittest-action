@@ -11,6 +11,11 @@ inputs:
     required: true
     default: "latest"
 
+  unittest-version:
+    description: "Which version of helm-unittest to install"
+    required: false
+    default: ""
+
   github-token:
     description: "GitHub token, necessary to overcome API rate limits"
     required: false
@@ -59,8 +64,14 @@ runs:
             exit 1
           fi
         fi
-
-        helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+        helm_ut_plugin_version="${{ inputs.unittest-version }}"
+        if [ -n "$helm_ut_plugin_version" ]; then
+          echo "Installing version $helm_ut_plugin_version of helm-unittest"
+          helm plugin install --version "$helm_ut_plugin_version" https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+        else
+          echo "Installing latest version of helm-unittest"
+          helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+        fi
       shell: bash
 
     - name: Assemble list of chart directories to test
