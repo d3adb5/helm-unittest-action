@@ -11,13 +11,14 @@ repository.
 
 ## Options
 
-| Input          | Description                                                                                   | Required | Default   |
-|:---------------|:----------------------------------------------------------------------------------------------|:---------|:----------|
-| `flags`        | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
-| `charts`       | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
-| `install-mode` | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
-| `helm-version` | Which version of Helm to install. Passed to [azure/setup-helm][setup-helm].                   | Yes      | `latest`  |
-| `github-token` | GitHub token for the workflow. Passed to [azure/setup-helm][setup-helm]. Not always needed!   | No       | `""`      |
+| Input              | Description                                                                                   | Required | Default   |
+|:-------------------|:----------------------------------------------------------------------------------------------|:---------|:----------|
+| `flags`            | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
+| `charts`           | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
+| `install-mode`     | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
+| `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to latest.                     | No       | `""`      |
+| `helm-version`     | Which version of Helm to install. Passed to [azure/setup-helm][setup-helm].                   | Yes      | `latest`  |
+| `github-token`     | GitHub token for the workflow. Passed to [azure/setup-helm][setup-helm]. Not always needed!   | No       | `""`      |
 
 The `github-token` input is necessary only when installing the latest version
 of Helm, to overcome GitHub API rate limits. If not given, refer to the
