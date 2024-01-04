@@ -65,7 +65,7 @@ runs:
           fi
         fi
         helm_ut_plugin_version="${{ inputs.unittest-version }}"
-        if [ -n "$helm_ut_plugin_version" ]; then
+        if [ -n "$helm_ut_plugin_version" ] && [ "$helm_ut_plugin_version" != "latest" ]; then
           echo "Installing version $helm_ut_plugin_version of helm-unittest"
           helm plugin install --version "$helm_ut_plugin_version" https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
         else

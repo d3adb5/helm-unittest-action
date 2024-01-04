@@ -24,6 +24,10 @@ The `github-token` input is necessary only when installing the latest version
 of Helm, to overcome GitHub API rate limits. If not given, refer to the
 [azure/setup-helm][setup-helm] README for more information.
 
+### Unittest Version
+
+`unittest-version` can be set to an empty string, or to `latest`. This allows a github variable to be used to "pin" a version, or to use latest since you cannot set a variable to an empty string.
+
 ### Installation mode
 
 The `install-mode` input controls how `helm-unittest` should be installed.
