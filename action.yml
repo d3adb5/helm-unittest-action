@@ -14,7 +14,7 @@ inputs:
   unittest-version:
     description: "Which version of helm-unittest to install"
     required: false
-    default: "1.0.0"
+    default: "~1"
 
   github-token:
     description: "GitHub token, necessary to overcome API rate limits"

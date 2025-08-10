@@ -16,7 +16,7 @@ repository.
 | `flags`            | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
 | `charts`           | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
 | `install-mode`     | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
-| `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to 1.x.y.                      | No       | `"1"`     |
+| `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to 1.x.y.                      | No       | `"~1"`    |
 | `helm-version`     | Which version of Helm to install. Passed to [azure/setup-helm][setup-helm].                   | Yes      | `latest`  |
 | `github-token`     | GitHub token for the workflow. Passed to [azure/setup-helm][setup-helm]. Not always needed!   | No       | `""`      |
 
