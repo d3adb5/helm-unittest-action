@@ -16,7 +16,7 @@ repository.
 | `flags`            | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
 | `charts`           | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
 | `install-mode`     | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
-| `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to latest.                     | No       | `""`      |
+| `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to 1.x.y.                      | No       | `"1"`     |
 | `helm-version`     | Which version of Helm to install. Passed to [azure/setup-helm][setup-helm].                   | Yes      | `latest`  |
 | `github-token`     | GitHub token for the workflow. Passed to [azure/setup-helm][setup-helm]. Not always needed!   | No       | `""`      |
 
@@ -26,7 +26,16 @@ of Helm, to overcome GitHub API rate limits. If not given, refer to the
 
 ### Unittest Version
 
-`unittest-version` can be set to an empty string, or to `latest`. This allows a github variable to be used to "pin" a version, or to use latest since you cannot set a variable to an empty string.
+**As helm-unittest now follows semantic versioning starting with 1.0.0,** this
+action will default to installing the latest 1.x.y version of the plugin, and
+breaking changes upstream will be reflected in the major version of this GitHub
+action.
+
+As always, you can specify the `unittest-version` input to install a specific
+version of the plugin, and it will be set as the `--version` flag for the `helm
+plugin install` command.
+
+Specifying `latest` will install the latest version of the plugin, as before.
 
 ### Installation mode
 
