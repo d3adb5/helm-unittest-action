@@ -23,7 +23,7 @@ inputs:
   flags:
     description: "Flags to pass to helm unittest"
     required: false
-    default: "--color"
+    default: ""
 
   charts:
     description: "Charts to run tests for, separated by spaces"
@@ -64,13 +64,22 @@ runs:
             exit 1
           fi
         fi
+        helm_version="$(helm version --short | grep -oE '^v?[0-9]+' | tr -d v)"
         helm_ut_plugin_version="${{ inputs.unittest-version }}"
         if [ -n "$helm_ut_plugin_version" ] && [ "$helm_ut_plugin_version" != "latest" ]; then
           echo "Installing version $helm_ut_plugin_version of helm-unittest"
-          helm plugin install --version "$helm_ut_plugin_version" https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+          if [ "$helm_version" -gt 3 ]; then
+            helm plugin install --version "$helm_ut_plugin_version" https://github.com/helm-unittest/helm-unittest --verify=false
+          else
+            helm plugin install --version "$helm_ut_plugin_version" https://github.com/helm-unittest/helm-unittest
+          fi
         else
           echo "Installing latest version of helm-unittest"
-          helm plugin install https://github.com/helm-unittest/helm-unittest >/dev/null 2>/dev/null
+          if [ "$helm_version" -gt 3 ]; then
+            helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
+          else
+            helm plugin install https://github.com/helm-unittest/helm-unittest
+          fi
         fi
       shell: bash
 

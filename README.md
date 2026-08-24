@@ -13,7 +13,7 @@ repository.
 
 | Input              | Description                                                                                   | Required | Default   |
 |:-------------------|:----------------------------------------------------------------------------------------------|:---------|:----------|
-| `flags`            | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `--color` |
+| `flags`            | Which flags to pass to helm-unittest when running unit tests.                                 | No       | `""` |
 | `charts`           | Paths to the charts to be tested, separated by spaces. If empty, all charts found are tested. | No       | `""`      |
 | `install-mode`     | One of `"force"`, `"if-not-present"`, or `""`. More information below.                        | No       | `""`      |
 | `unittest-version` | Which version of the helm-unittest plugin to install. Defaults to 1.x.y.                      | No       | `"~1"`    |
