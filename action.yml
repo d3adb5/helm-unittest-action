@@ -23,7 +23,7 @@ inputs:
   flags:
     description: "Flags to pass to helm unittest"
     required: false
-    default: "--color"
+    default: ""
 
   charts:
     description: "Charts to run tests for, separated by spaces"
