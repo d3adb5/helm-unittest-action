@@ -37,6 +37,13 @@ inputs:
     required: false
     default: ""
 
+  dependency-build-retries:
+    description: >-
+      Number of retry attempts for helm dependency build per chart.
+      Helps with transient failures from external Helm repositories.
+    required: false
+    default: "3"
+
 runs:
   using: "composite"
   steps:
@@ -83,9 +90,28 @@ runs:
 
     - name: Fetch chart dependencies
       run: |
+        max_retries="${{ inputs.dependency-build-retries }}"
+        failed=0
         for chart in $(cat charts-to-test); do
-          helm dependency update "$chart" >/dev/null
+          success=false
+          for attempt in $(seq 1 "$max_retries"); do
+            if helm dependency build "$chart" >/dev/null 2>&1; then
+              success=true
+              break
+            fi
+            if [ "$attempt" -lt "$max_retries" ]; then
+              echo "::warning::helm dependency build failed for $chart (attempt $attempt/$max_retries), retrying in 5s..."
+              sleep 5
+            fi
+          done
+          if [ "$success" = false ]; then
+            echo "::error::helm dependency build failed for $chart after $max_retries attempts"
+            failed=1
+          fi
         done
+        if [ "$failed" -ne 0 ]; then
+          exit 1
+        fi
       shell: bash
 
     - name: Run unit tests
